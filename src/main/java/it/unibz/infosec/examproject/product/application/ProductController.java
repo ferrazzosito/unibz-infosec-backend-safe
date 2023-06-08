@@ -11,6 +11,7 @@ import it.unibz.infosec.examproject.user.domain.UserRepository;
 import it.unibz.infosec.examproject.util.RESTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -38,15 +39,19 @@ public class ProductController {
 
     @PostMapping("/search")
     public SearchResultsDTO findByName(@RequestBody SearchProductDTO searchProductDTO) {
-        return new SearchResultsDTO(searchProducts
-                .findByName(searchProductDTO.getQuery()), searchProductDTO.getQuery());
+        return new SearchResultsDTO(
+                searchProducts.findByName(HtmlUtils.htmlEscape(searchProductDTO.getQuery())),
+                HtmlUtils.htmlEscape(searchProductDTO.getQuery())
+        );
     }
 
     @PostMapping("/mine/search")
     public SearchResultsDTO findMyProductsByName(@RequestBody SearchProductDTO searchProductDTO) {
-        return new SearchResultsDTO(searchProducts.findByNameAndVendor(
-                searchProductDTO.getQuery(), RESTUtils.getLoggedUser(userRepository).getId()),
-                    searchProductDTO.getQuery());
+        return new SearchResultsDTO(
+                searchProducts.findByNameAndVendor(HtmlUtils.htmlEscape(searchProductDTO.getQuery()),
+                RESTUtils.getLoggedUser(userRepository).getId()),
+                HtmlUtils.htmlEscape(searchProductDTO.getQuery())
+        );
     }
 
     @PostMapping("/create")
@@ -55,7 +60,11 @@ public class ProductController {
         if (loggedUser.getRole() != Role.VENDOR) {
             throw new IllegalArgumentException("Wrong user type for this operation");
         }
-        return manageProducts.createProduct(dto.getName(), dto.getCost(), loggedUser.getId());
+        return manageProducts.createProduct(
+                HtmlUtils.htmlEscape(dto.getName()),
+                dto.getCost(),
+                loggedUser.getId()
+        );
     }
 
     @PostMapping("/update/{id}")
@@ -63,14 +72,17 @@ public class ProductController {
         return manageProducts.updateProduct(
                 id,
                 RESTUtils.getLoggedUser(userRepository).getId(),
-                dto.getName(),
+                HtmlUtils.htmlEscape(dto.getName()),
                 dto.getCost()
         );
     }
 
     @GetMapping("/delete/{id}")
     public Product deleteProduct(@PathVariable("id") Long id)  {
-        return manageProducts.deleteProduct(id, RESTUtils.getLoggedUser(userRepository).getId());
+        return manageProducts.deleteProduct(
+                id,
+                RESTUtils.getLoggedUser(userRepository).getId()
+        );
     }
 
     @GetMapping("/{id}/reviews")

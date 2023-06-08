@@ -7,6 +7,7 @@ import it.unibz.infosec.examproject.user.domain.UserRepository;
 import it.unibz.infosec.examproject.util.RESTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -33,8 +34,8 @@ public class ReviewController {
     @PostMapping("/create")
     public Review createNewReview(@RequestBody CreateReviewDTO dto) {
         return manageReviews.createReview(
-                dto.getTitle(),
-                dto.getDescription(),
+                HtmlUtils.htmlEscape(dto.getTitle()),
+                HtmlUtils.htmlEscape(dto.getDescription()),
                 dto.getStars(),
                 dto.getDatePublishing(), dto.getProductId(),
                 dto.getReplyFromReviewId(),
@@ -43,14 +44,20 @@ public class ReviewController {
 
     @PostMapping("/update/{id}")
     public Review updateReview(@PathVariable("id") Long id, @RequestBody UpdateReviewDTO dto) {
-        return manageReviews.updateReview(id,
+        return manageReviews.updateReview(
+                id,
                 RESTUtils.getLoggedUser(userRepository).getId(),
-                    dto.getTitle(), dto.getDescription());
+                HtmlUtils.htmlEscape(dto.getTitle()),
+                HtmlUtils.htmlEscape(dto.getDescription())
+        );
     }
 
     @DeleteMapping("/delete/{id}")
     public Review deleteReview(@PathVariable("id") Long id)  {
-        return manageReviews.deleteReview(id, RESTUtils.getLoggedUser(userRepository).getId());
+        return manageReviews.deleteReview(
+                id,
+                RESTUtils.getLoggedUser(userRepository).getId()
+        );
     }
 
     @GetMapping("/getAll")
