@@ -33,6 +33,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (maybeUser.isPresent()) {
             UserEntity user = maybeUser.get();
             final String salt = user.getSalt();
+            if (salt.isEmpty() || salt.isBlank()) {
+                return null;
+            }
             final String hashedPassword = Hashing.getDigest(password + salt);
 
             if (hashedPassword.equals(user.getPassword())) {
