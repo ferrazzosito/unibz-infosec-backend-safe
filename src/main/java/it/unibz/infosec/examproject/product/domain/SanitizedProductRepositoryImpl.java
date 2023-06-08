@@ -34,7 +34,7 @@ public class SanitizedProductRepositoryImpl implements ISanitizedProductReposito
             final PreparedStatement stmt = db.prepareStatement(
                     "SELECT * FROM product WHERE name LIKE ?"
             );
-            stmt.setString(1, query);
+            stmt.setString(1, "%" + query + "%");
 
             final ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -58,7 +58,7 @@ public class SanitizedProductRepositoryImpl implements ISanitizedProductReposito
             final PreparedStatement stmt = db.prepareStatement(
                     "SELECT * FROM product WHERE name LIKE ? AND vendor_id = ?"
             );
-            stmt.setString(1, query);
+            stmt.setString(1, "%" + query + "%");
             stmt.setLong(2, vendorId);
 
             final ResultSet rs = stmt.executeQuery();
