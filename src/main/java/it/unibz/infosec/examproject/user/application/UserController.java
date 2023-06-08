@@ -23,10 +23,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserEntity findById(@PathVariable("id") Long id) {
+    public SafeUserEntity findById(@PathVariable("id") Long id) {
         final UserEntity user = manageUsers.readUser(id);
-        // return new SafeUserEntity(user.getEmail(), user.getRole().getName());
-        return user;
+        return new SafeUserEntity(user.getEmail(), user.getRole().getName(), 0);
     }
 
     @GetMapping("/me")
