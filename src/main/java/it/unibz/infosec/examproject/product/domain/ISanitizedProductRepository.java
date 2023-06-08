@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.List;
 
-public interface IUnsafeProductRepository {
+public interface ISanitizedProductRepository {
     @NonNull
     List<Product> findByName(@NonNull String name);
 

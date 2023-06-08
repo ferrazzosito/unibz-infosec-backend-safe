@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UnsafeUserRepositoryImpl implements IUnsafeUserRepository {
+public class SanitizedUserRepositoryImpl implements ISanitizedUserRepository {
 
     @PersistenceContext
     private EntityManager entityManager;

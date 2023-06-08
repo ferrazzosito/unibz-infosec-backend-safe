@@ -1,6 +1,5 @@
 package it.unibz.infosec.examproject.user.auth;
 
-import it.unibz.infosec.examproject.product.domain.UnsafeProductRepository;
 import it.unibz.infosec.examproject.security.JwtGenerator;
 import it.unibz.infosec.examproject.user.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -27,7 +21,6 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     private final UserRepository userRepository;
-    private final UnsafeUserRepository unsafeUserRepository;
 
     private final ManageUsers manageUsers;
     private final JwtGenerator jwtGenerator;
@@ -35,12 +28,10 @@ public class AuthController {
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
-                          UnsafeUserRepository unsafeProductRepository,
                           ManageUsers manageUsers,
                           JwtGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
-        this.unsafeUserRepository = unsafeProductRepository;
         this.manageUsers = manageUsers;
         this.jwtGenerator = jwtGenerator;
     }

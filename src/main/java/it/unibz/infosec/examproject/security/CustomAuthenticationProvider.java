@@ -1,6 +1,6 @@
 package it.unibz.infosec.examproject.security;
 
-import it.unibz.infosec.examproject.user.domain.UnsafeUserRepository;
+import it.unibz.infosec.examproject.user.domain.SanitizedUserRepository;
 import it.unibz.infosec.examproject.user.domain.UserEntity;
 import it.unibz.infosec.examproject.user.domain.UserRepository;
 import it.unibz.infosec.examproject.util.crypto.hashing.Hashing;
@@ -22,7 +22,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private UserRepository userRepository;
 
     @Autowired
-    private UnsafeUserRepository unsafeUserRepository;
+    private SanitizedUserRepository unsafeUserRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

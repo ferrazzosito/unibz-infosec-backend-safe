@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 
-public interface IUnsafeUserRepository {
+public interface ISanitizedUserRepository {
     @NonNull
     Optional<UserEntity> findByEmail(String email);
     @NonNull

@@ -10,12 +10,12 @@ import java.util.Optional;
 public class SearchProducts {
 
     private final ProductRepository productRepository;
-    private final UnsafeProductRepository unsafeProductRepository;
+    private final SanitizedProductRepository sanitizedProductRepository;
 
     @Autowired
-    public SearchProducts(ProductRepository productRepository, UnsafeProductRepository unsafeProductRepository) {
+    public SearchProducts(ProductRepository productRepository, SanitizedProductRepository sanitizedProductRepository) {
         this.productRepository = productRepository;
-        this.unsafeProductRepository = unsafeProductRepository;
+        this.sanitizedProductRepository = sanitizedProductRepository;
     }
 
     public Product findById(Long id) {
@@ -27,11 +27,11 @@ public class SearchProducts {
     }
 
     public List<Product> findByName(String query) {
-        return unsafeProductRepository.findByName(query);
+        return sanitizedProductRepository.findByName(query);
     }
 
     public List<Product> findByNameAndVendor(String query, Long vendorId) {
-        return unsafeProductRepository.findByNameAndVendorId(query, vendorId);
+        return sanitizedProductRepository.findByNameAndVendorId(query, vendorId);
     }
 
     public List<Product> findAll() {
